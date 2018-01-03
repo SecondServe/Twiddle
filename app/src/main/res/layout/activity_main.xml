@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/leftThumb"
             style="@style/Base.Widget.AppCompat.ButtonBar"
@@ -27,8 +29,7 @@
             android:background="@drawable/rounded_button_green"
             android:layout_margin="0dp"
             android:layout_weight="0.5"
-            android:visibility="visible"
-            android:text="Right" />
+            android:visibility="visible"/>
 
     </LinearLayout>
 
@@ -42,5 +43,32 @@
         android:text="30 sec"
         android:textColor="@android:color/black"
         android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:onClick="startGame"
+        android:text="Let's Play!" />
+
+    <ImageView
+        android:id="@+id/leftArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="45dp"
+        android:clickable="false"
+        app:srcCompat="@drawable/down_arrow" />
+
+    <ImageView
+        android:id="@+id/rightArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="45dp"
+        android:clickable="false"
+        app:srcCompat="@drawable/down_arrow" />
 
 </RelativeLayout>
