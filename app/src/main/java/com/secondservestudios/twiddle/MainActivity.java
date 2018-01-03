@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView leftArrow;
     int direction;
     int score;
+    boolean gameEnd = false;
 
     public void startGame(View view){
         gameRoundStart();
@@ -44,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         rightThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
             public void onSwipeTop(){
-                arrowVisibility();
 
                 Toast.makeText(MainActivity.this, "right swiped up", Toast.LENGTH_SHORT).show();
                 if (direction == 1){
@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onSwipeBottom(){
-                arrowVisibility();
-
                 Toast.makeText(MainActivity.this, "right swiped down", Toast.LENGTH_SHORT).show();
                 if (direction == 2){
                     score ++;
@@ -75,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
         leftThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
             public void onSwipeTop(){
-                arrowVisibility();
-
                 Toast.makeText(MainActivity.this, "left swiped up", Toast.LENGTH_SHORT).show();
                 if (direction == 1){
                     score ++;
@@ -88,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onSwipeBottom(){
-                arrowVisibility();
                 Toast.makeText(MainActivity.this, "left swiped down", Toast.LENGTH_SHORT).show();
                 if (direction == 2){
                     score ++;
@@ -102,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
     public void gameRoundStart(){
         Toast.makeText(this, "game on", Toast.LENGTH_SHORT).show();
         int startingSide = randomStart.nextInt(3-1)+1;
@@ -111,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             leftThumb.setVisibility(View.VISIBLE);
             rightThumb.setVisibility(View.INVISIBLE);
             direction = randomDirection.nextInt(3-1)+1;
-            arrowVisibility();
 
         }
 
@@ -119,36 +112,11 @@ public class MainActivity extends AppCompatActivity {
             leftThumb.setVisibility(View.INVISIBLE);
             rightThumb.setVisibility(View.VISIBLE);
             direction = randomDirection.nextInt(3-1)+1;
-            arrowVisibility();
 
         }
     }
 
-    public void arrowVisibility(){
-        switch (direction){
-            // 1 is up 2 is down
-            case 1:
-                if (leftThumb.getVisibility() == View.INVISIBLE){
-                    rightArrow.setVisibility(View.VISIBLE);
-                    leftArrow.setVisibility(View.INVISIBLE);
-                    rightArrow.setImageResource(R.drawable.up_arrow);
-                } else if(rightThumb.getVisibility() == View.INVISIBLE){
-                    rightArrow.setVisibility(View.INVISIBLE);
-                    leftArrow.setVisibility(View.VISIBLE);
-                    leftArrow.setImageResource(R.drawable.up_arrow);
-            } break;
+    public void
 
-            case 2:
-                if (leftThumb.getVisibility() == View.INVISIBLE){
-                rightArrow.setVisibility(View.VISIBLE);
-                leftArrow.setVisibility(View.INVISIBLE);
-                rightArrow.setImageResource(R.drawable.down_arrow);
-            } else if(rightThumb.getVisibility() == View.INVISIBLE){
-                rightArrow.setVisibility(View.INVISIBLE);
-                leftArrow.setVisibility(View.VISIBLE);
-                leftArrow.setImageResource(R.drawable.down_arrow);
-            } break;
-        }
-    }
 
 }
