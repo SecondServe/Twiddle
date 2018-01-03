@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.Random;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView leftArrow;
     int direction;
     int score;
+    int adCount = 0;
 
     public void startGame(View view){
         gameRoundStart();
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         rightThumb.setVisibility(View.VISIBLE);
         leftArrow.setVisibility(View.INVISIBLE);
         rightArrow.setVisibility(View.INVISIBLE);
+        MobileAds.initialize(this, "ca-app-pub-3597284556748948~6732499357");
         
 
         rightThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
@@ -120,6 +123,16 @@ public class MainActivity extends AppCompatActivity {
             rightThumb.setVisibility(View.VISIBLE);
             direction = randomDirection.nextInt(3-1)+1;
             arrowVisibility();
+
+        }
+    }
+
+    public void gameRoundEnd(){
+
+        if(adCount >= 3){
+
+            adCount=0;
+
 
         }
     }
