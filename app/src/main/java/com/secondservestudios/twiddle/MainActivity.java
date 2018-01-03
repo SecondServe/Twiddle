@@ -2,13 +2,19 @@ package com.secondservestudios.twiddle;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.MobileAds;
+
 import java.util.Random;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 public class MainActivity extends AppCompatActivity {
     Button leftThumb;
@@ -22,11 +28,20 @@ public class MainActivity extends AppCompatActivity {
     int direction;
     int score;
     boolean gameEnd = false;
+    int adCount = 0;
+    private InterstitialAd mInterstitialAd;
 
     public void startGame(View view){
-        gameRoundStart();
         startButton.setVisibility(View.INVISIBLE);
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+        }
+
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +52,20 @@ public class MainActivity extends AppCompatActivity {
         leftThumb = (Button) findViewById(R.id.leftThumb);
         rightThumb = (Button) findViewById(R.id.rightThumb);
         startButton = (Button) findViewById(R.id.startButton);
+        startButton.setClickable(false);
         leftThumb.setVisibility(View.VISIBLE);
         rightThumb.setVisibility(View.VISIBLE);
         leftArrow.setVisibility(View.INVISIBLE);
         rightArrow.setVisibility(View.INVISIBLE);
-        
+        MobileAds.initialize(this, "ca-app-pub-3597284556748948~6732499357");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
 
         rightThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
             public void onSwipeTop(){
+                arrowVisibility();
 
                 Toast.makeText(MainActivity.this, "right swiped up", Toast.LENGTH_SHORT).show();
                 if (direction == 1){
@@ -58,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onSwipeBottom(){
+                arrowVisibility();
+
                 Toast.makeText(MainActivity.this, "right swiped down", Toast.LENGTH_SHORT).show();
                 if (direction == 2){
                     score ++;
@@ -71,8 +94,44 @@ public class MainActivity extends AppCompatActivity {
             
         });
 
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+
+                startButton.setClickable(true);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+
+                startButton.setClickable(true);
+                gameRoundStart();
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when when the interstitial ad is closed.
+
+                gameRoundStart();
+            }
+        });
+
         leftThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
             public void onSwipeTop(){
+                arrowVisibility();
+
                 Toast.makeText(MainActivity.this, "left swiped up", Toast.LENGTH_SHORT).show();
                 if (direction == 1){
                     score ++;
@@ -84,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onSwipeBottom(){
+                arrowVisibility();
                 Toast.makeText(MainActivity.this, "left swiped down", Toast.LENGTH_SHORT).show();
                 if (direction == 2){
                     score ++;
@@ -97,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     public void gameRoundStart(){
         Toast.makeText(this, "game on", Toast.LENGTH_SHORT).show();
         int startingSide = randomStart.nextInt(3-1)+1;
@@ -105,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
             leftThumb.setVisibility(View.VISIBLE);
             rightThumb.setVisibility(View.INVISIBLE);
             direction = randomDirection.nextInt(3-1)+1;
+            arrowVisibility();
 
         }
 
@@ -112,11 +174,47 @@ public class MainActivity extends AppCompatActivity {
             leftThumb.setVisibility(View.INVISIBLE);
             rightThumb.setVisibility(View.VISIBLE);
             direction = randomDirection.nextInt(3-1)+1;
+            arrowVisibility();
 
         }
     }
 
-    
+    public void gameRoundEnd(){
 
+        if(adCount >= 3){
+
+            adCount=0;
+
+
+        }
+    }
+
+    public void arrowVisibility(){
+        switch (direction){
+            // 1 is up 2 is down
+            case 1:
+                if (leftThumb.getVisibility() == View.INVISIBLE){
+                    rightArrow.setVisibility(View.VISIBLE);
+                    leftArrow.setVisibility(View.INVISIBLE);
+                    rightArrow.setImageResource(R.drawable.up_arrow);
+                } else if(rightThumb.getVisibility() == View.INVISIBLE){
+                    rightArrow.setVisibility(View.INVISIBLE);
+                    leftArrow.setVisibility(View.VISIBLE);
+                    leftArrow.setImageResource(R.drawable.up_arrow);
+            } break;
+
+
+            case 2:
+                if (leftThumb.getVisibility() == View.INVISIBLE){
+                rightArrow.setVisibility(View.VISIBLE);
+                leftArrow.setVisibility(View.INVISIBLE);
+                rightArrow.setImageResource(R.drawable.down_arrow);
+            } else if(rightThumb.getVisibility() == View.INVISIBLE){
+                rightArrow.setVisibility(View.INVISIBLE);
+                leftArrow.setVisibility(View.VISIBLE);
+                leftArrow.setImageResource(R.drawable.down_arrow);
+            } break;
+        }
+    }
 
 }
