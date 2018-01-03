@@ -2,14 +2,19 @@ package com.secondservestudios.twiddle;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.MobileAds;
 
 import java.util.Random;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 public class MainActivity extends AppCompatActivity {
     Button leftThumb;
@@ -24,11 +29,19 @@ public class MainActivity extends AppCompatActivity {
     int score;
     boolean gameEnd = false;
     int adCount = 0;
+    private InterstitialAd mInterstitialAd;
 
     public void startGame(View view){
-        gameRoundStart();
         startButton.setVisibility(View.INVISIBLE);
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+        }
+
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +52,15 @@ public class MainActivity extends AppCompatActivity {
         leftThumb = (Button) findViewById(R.id.leftThumb);
         rightThumb = (Button) findViewById(R.id.rightThumb);
         startButton = (Button) findViewById(R.id.startButton);
+        startButton.setClickable(false);
         leftThumb.setVisibility(View.VISIBLE);
         rightThumb.setVisibility(View.VISIBLE);
         leftArrow.setVisibility(View.INVISIBLE);
         rightArrow.setVisibility(View.INVISIBLE);
         MobileAds.initialize(this, "ca-app-pub-3597284556748948~6732499357");
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
 
         rightThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
@@ -75,6 +92,40 @@ public class MainActivity extends AppCompatActivity {
             }
 
             
+        });
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+
+                startButton.setClickable(true);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+
+                startButton.setClickable(true);
+                gameRoundStart();
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when when the interstitial ad is closed.
+
+                gameRoundStart();
+            }
         });
 
         leftThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){

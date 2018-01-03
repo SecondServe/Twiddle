@@ -14,13 +14,12 @@ buildscript {
 
 allprojects {
 
-    def var = repositories {
+    repositories {
         jcenter()
         maven {
             url "https://maven.google.com"
         }
     }
-    var
 }
 
 task clean(type: Delete) {
