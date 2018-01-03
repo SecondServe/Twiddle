@@ -19,13 +19,28 @@ public class MainActivity extends AppCompatActivity {
         leftThumb = (Button) findViewById(R.id.leftThumb);
         rightThumb = (Button) findViewById(R.id.rightThumb);
         
-        
-        
+
         rightThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
             public void onSwipeTop(){
-                Toast.makeText(MainActivity.this, "swiped up", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "right swiped up", Toast.LENGTH_SHORT).show();
             }
+
+            public void onSwipeBottom(){
+                Toast.makeText(MainActivity.this, "right swiped down", Toast.LENGTH_SHORT).show();
+            }
+
             
+        });
+
+        leftThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
+            public void onSwipeTop(){
+                Toast.makeText(MainActivity.this, "left swiped up", Toast.LENGTH_SHORT).show();
+            }
+
+            public void onSwipeBottom(){
+                Toast.makeText(MainActivity.this, "left swiped down", Toast.LENGTH_SHORT).show();
+            }
+
         });
 
 
