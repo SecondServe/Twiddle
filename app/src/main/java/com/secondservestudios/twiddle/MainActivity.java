@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView leftArrow;
     int direction;
     int score;
+    boolean gameEnd = false;
     int adCount = 0;
 
     public void startGame(View view){
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         leftArrow.setVisibility(View.INVISIBLE);
         rightArrow.setVisibility(View.INVISIBLE);
         MobileAds.initialize(this, "ca-app-pub-3597284556748948~6732499357");
-        
+
 
         rightThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
             public void onSwipeTop(){
@@ -150,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     leftArrow.setVisibility(View.VISIBLE);
                     leftArrow.setImageResource(R.drawable.up_arrow);
             } break;
+
 
             case 2:
                 if (leftThumb.getVisibility() == View.INVISIBLE){
