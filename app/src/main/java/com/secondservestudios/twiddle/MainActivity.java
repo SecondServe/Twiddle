@@ -1,6 +1,8 @@
 package com.secondservestudios.twiddle;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,11 +18,13 @@ import java.util.Random;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
+import static com.secondservestudios.twiddle.R.id.countDown;
+
 public class MainActivity extends AppCompatActivity {
     Button leftThumb;
     Button rightThumb;
     Button startButton;
-    TextView timer;
+    TextView countDown;
     Random randomDirection = new Random();
     Random randomStart = new Random();
     ImageView rightArrow;
@@ -28,15 +32,22 @@ public class MainActivity extends AppCompatActivity {
     int direction;
     int score;
     boolean gameEnd = false;
-    int adCount = 0;
+    int adCount = 4;
     private InterstitialAd mInterstitialAd;
 
     public void startGame(View view){
         startButton.setVisibility(View.INVISIBLE);
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        } else {
-            Log.d("TAG", "The interstitial wasn't loaded yet.");
+        if(adCount >= 3) {
+            adCount = 0;
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                //gameRoundStart();
+            }
+
+        }
+        else{
+            gameRoundStart();
         }
 
     }
@@ -52,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         leftThumb = (Button) findViewById(R.id.leftThumb);
         rightThumb = (Button) findViewById(R.id.rightThumb);
         startButton = (Button) findViewById(R.id.startButton);
+        countDown = (TextView) findViewById(R.id.countDown);
         startButton.setClickable(false);
         leftThumb.setVisibility(View.VISIBLE);
         rightThumb.setVisibility(View.VISIBLE);
@@ -123,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdClosed() {
                 // Code to be executed when when the interstitial ad is closed.
-
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
                 gameRoundStart();
             }
         });
@@ -162,6 +174,23 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "game on", Toast.LENGTH_SHORT).show();
         int startingSide = randomStart.nextInt(3-1)+1;
 
+
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+
+                //int counter = 0;
+                countDown.setText("seconds remaining: " + millisUntilFinished / 1000);
+                //countDown.setText(String.valueOf(counter));
+                //counter++;
+            }
+
+            public void onFinish() {
+                //timer.setText("done!");
+                gameRoundEnd();
+            }
+        }.start();
+
         if (startingSide == 1){
             leftThumb.setVisibility(View.VISIBLE);
             rightThumb.setVisibility(View.INVISIBLE);
@@ -181,12 +210,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void gameRoundEnd(){
 
-        if(adCount >= 3){
 
-            adCount=0;
+            adCount = adCount + 1;
+
+            startButton.setVisibility(View.VISIBLE);
 
 
-        }
+
     }
 
     public void arrowVisibility(){
