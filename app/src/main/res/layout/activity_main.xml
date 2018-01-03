@@ -27,7 +27,7 @@
             android:background="@drawable/rounded_button_green"
             android:layout_margin="0dp"
             android:layout_weight="0.5"
-            android:visibility="invisible"
+            android:visibility="visible"
             android:text="Right" />
 
     </LinearLayout>
