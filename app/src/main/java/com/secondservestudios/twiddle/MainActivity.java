@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+
             }
 
             public void onSwipeBottom() {
@@ -240,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onTick(long millisUntilFinished) {
 
                             //int counter = 0;
-                            countDown.setText("seconds remaining: " + millisUntilFinished / 1000);
+                            countDown.setText(millisUntilFinished / 1000 + "Sec");
                             //countDown.setText(String.valueOf(counter));
                             //counter++;
                         }
