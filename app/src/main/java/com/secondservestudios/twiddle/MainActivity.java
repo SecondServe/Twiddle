@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         roundScore = (TextView) findViewById(R.id.roundScore);
         MobileAds.initialize(this, "ca-app-pub-3597284556748948~6732499357");
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-3597284556748948/3312129093");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         countDown = (TextView) findViewById(R.id.countDown);
