@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     TextView timer;
     TextView scoreBoard;
     TextView countDown;
+    TextView highScore;
     Random randomDirection = new Random();
     Random randomStart = new Random();
     ImageView rightArrow;
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         rightThumb = (Button) findViewById(R.id.rightThumb);
         startButton = (Button) findViewById(R.id.startButton);
         scoreBoard = (TextView) findViewById(R.id.scoreBoard);
+        highScore = (TextView) findViewById(R.id.highScore);
         MobileAds.initialize(this, "ca-app-pub-3597284556748948~6732499357");
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -72,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         rightThumb.setVisibility(View.VISIBLE);
         leftArrow.setVisibility(View.INVISIBLE);
         rightArrow.setVisibility(View.INVISIBLE);
+
+
+
 
 
         rightThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
@@ -129,9 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (direction == 1) {
                     score++;
                     scoreBoard.setText("Score: " + Integer.toString(score));
-                    if (direction == 1) {
-                        score++;
-                        rightThumb.setVisibility(View.VISIBLE);
+                    rightThumb.setVisibility(View.VISIBLE);
                         leftThumb.setVisibility(View.INVISIBLE);
                         direction = randomDirection.nextInt(3 - 1) + 1;
                         leftArrow.setVisibility(View.INVISIBLE);
@@ -145,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }
+
 
                         public void onSwipeBottom() {
                             if (direction == 1) {
@@ -211,12 +213,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "game on", Toast.LENGTH_SHORT).show();
                 int startingSide = randomStart.nextInt(3 - 1) + 1;
 
-                    new CountDownTimer(30000, 1000) {
+                    new CountDownTimer(9000, 1000) {
 
                         public void onTick(long millisUntilFinished) {
 
                             //int counter = 0;
-                            countDown.setText("seconds remaining: " + millisUntilFinished / 1000);
+                            countDown.setText(millisUntilFinished / 1000 + "Sec");
                             //countDown.setText(String.valueOf(counter));
                             //counter++;
                         }
@@ -258,6 +260,5 @@ public class MainActivity extends AppCompatActivity {
             public void gameRoundEnd() {
                 adCount = adCount + 1;
                 startButton.setVisibility(View.VISIBLE);
-
+                }
             }
-        }
