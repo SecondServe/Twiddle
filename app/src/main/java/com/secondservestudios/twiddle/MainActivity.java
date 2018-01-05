@@ -1,5 +1,7 @@
 package com.secondservestudios.twiddle;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     TextView timer;
     TextView scoreBoard;
     TextView countDown;
+    TextView highScore;
     Random randomDirection = new Random();
     Random randomStart = new Random();
     ImageView rightArrow;
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private InterstitialAd mInterstitialAd;
     boolean gameEnd;
     boolean gameRunning;
+
+    SharedPreferences sharedPreferences;
 
     public void startGame(View view){
         startButton.setVisibility(View.INVISIBLE);
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         rightThumb = (Button) findViewById(R.id.rightThumb);
         startButton = (Button) findViewById(R.id.startButton);
         scoreBoard = (TextView) findViewById(R.id.scoreBoard);
+        highScore = (TextView) findViewById(R.id.highScore);
         MobileAds.initialize(this, "ca-app-pub-3597284556748948~6732499357");
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -70,12 +76,18 @@ public class MainActivity extends AppCompatActivity {
         countDown = (TextView) findViewById(R.id.countDown);
         startButton.setClickable(false);
 
+
         leftThumb.setVisibility(View.VISIBLE);
         rightThumb.setVisibility(View.VISIBLE);
         leftArrow.setVisibility(View.INVISIBLE);
         rightArrow.setVisibility(View.INVISIBLE);
 
+        sharedPreferences = this.getSharedPreferences("com.secondservestudios.twiddle", Context.MODE_PRIVATE);
+
         gameRunning = false;
+
+        int currentHighScore = sharedPreferences.getInt("highScore", 0);
+        highScore.setText("High Score: " + currentHighScore);
 
 
         rightThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
@@ -283,7 +295,12 @@ public class MainActivity extends AppCompatActivity {
             public void gameRoundEnd() {
                 adCount = adCount + 1;
                 startButton.setVisibility(View.VISIBLE);
-
+                int getHighScore = sharedPreferences.getInt("highScore", 0);
+                if (score > getHighScore) {
+                    sharedPreferences.edit().putInt("highScore", score).apply();
+                    int newHighScore = sharedPreferences.getInt("highScore", 0);
+                    highScore.setText("High Score: " + newHighScore);
+                }
 
                 gameRunning = false;
 
