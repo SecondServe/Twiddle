@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     TextView scoreBoard;
     TextView countDown;
     TextView highScore;
+    TextView roundScore;
     Random randomDirection = new Random();
     Random randomStart = new Random();
     ImageView rightArrow;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         startButton = (Button) findViewById(R.id.startButton);
         scoreBoard = (TextView) findViewById(R.id.scoreBoard);
         highScore = (TextView) findViewById(R.id.highScore);
+        roundScore = (TextView) findViewById(R.id.roundScore);
         MobileAds.initialize(this, "ca-app-pub-3597284556748948~6732499357");
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -77,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         startButton.setClickable(false);
 
 
-        leftThumb.setVisibility(View.VISIBLE);
-        rightThumb.setVisibility(View.VISIBLE);
+        leftThumb.setVisibility(View.INVISIBLE);
+        rightThumb.setVisibility(View.INVISIBLE);
         leftArrow.setVisibility(View.INVISIBLE);
         rightArrow.setVisibility(View.INVISIBLE);
 
@@ -247,13 +249,14 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "game on", Toast.LENGTH_SHORT).show();
                 int startingSide = randomStart.nextInt(3 - 1) + 1;
                 gameRunning = true;
+                roundScore.setVisibility(View.INVISIBLE);
 
                     new CountDownTimer(30000, 1000) {
 
                         public void onTick(long millisUntilFinished) {
 
                             //int counter = 0;
-                            countDown.setText(millisUntilFinished / 1000 + "Sec");
+                            countDown.setText(millisUntilFinished / 1000 + " Sec");
                             //countDown.setText(String.valueOf(counter));
                             //counter++;
                         }
@@ -268,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
                         leftThumb.setVisibility(View.VISIBLE);
                         rightThumb.setVisibility(View.INVISIBLE);
                         leftArrow.setVisibility(View.VISIBLE);
+                        rightArrow.setVisibility(View.INVISIBLE);
                         direction = randomDirection.nextInt(3 - 1) + 1;
 
                         if (direction == 1) {
@@ -281,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
                         leftThumb.setVisibility(View.INVISIBLE);
                         rightThumb.setVisibility(View.VISIBLE);
                         rightArrow.setVisibility(View.VISIBLE);
+                        leftArrow.setVisibility(View.INVISIBLE);
                         direction = randomDirection.nextInt(3 - 1) + 1;
 
                         if (direction == 1) {
@@ -295,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
             public void gameRoundEnd() {
                 adCount = adCount + 1;
                 startButton.setVisibility(View.VISIBLE);
+                roundScore.setVisibility(View.VISIBLE);
                 int getHighScore = sharedPreferences.getInt("highScore", 0);
                 if (score > getHighScore) {
                     sharedPreferences.edit().putInt("highScore", score).apply();
@@ -303,9 +309,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 gameRunning = false;
-
+                roundScore.setText("You Scored: " + score);
                 score = 0;
                 scoreBoard.setText("Score: " + Integer.toString(score));
+                startButton.setText("Play Again?");
+                leftThumb.setVisibility(View.INVISIBLE);
+                rightThumb.setVisibility(View.INVISIBLE);
+                rightArrow.setVisibility(View.INVISIBLE);
+                leftArrow.setVisibility(View.INVISIBLE);
 
             }
 
