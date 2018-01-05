@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     int adCount = 4;
     private InterstitialAd mInterstitialAd;
     boolean gameEnd;
+    boolean gameRunning;
 
     public void startGame(View view){
         startButton.setVisibility(View.INVISIBLE);
@@ -68,53 +69,65 @@ public class MainActivity extends AppCompatActivity {
 
         countDown = (TextView) findViewById(R.id.countDown);
         startButton.setClickable(false);
+
         leftThumb.setVisibility(View.VISIBLE);
         rightThumb.setVisibility(View.VISIBLE);
         leftArrow.setVisibility(View.INVISIBLE);
         rightArrow.setVisibility(View.INVISIBLE);
 
+        gameRunning = false;
+
 
         rightThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
             public void onSwipeTop() {
-                if (direction == 2) {
-                    Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
-                } else if (direction == 1) {
-                    score++;
-                    scoreBoard.setText("Score: " + Integer.toString(score));
-                    rightThumb.setVisibility(View.INVISIBLE);
-                    leftThumb.setVisibility(View.VISIBLE);
-                    direction = randomDirection.nextInt(3 - 1) + 1;
-                    rightArrow.setVisibility(View.INVISIBLE);
 
-                    if (direction == 1) {
-                        leftArrow.setVisibility(View.VISIBLE);
-                        leftArrow.setImageResource(R.drawable.up_arrow);
-                    } else {
-                        leftArrow.setVisibility(View.VISIBLE);
-                        leftArrow.setImageResource(R.drawable.down_arrow);
+                if(gameRunning) {
+                    if (direction == 2) {
+                        Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
+                        score--;
+                        scoreBoard.setText("Score: " + Integer.toString(score));
+                    } else if (direction == 1) {
+                        score++;
+                        scoreBoard.setText("Score: " + Integer.toString(score));
+                        rightThumb.setVisibility(View.INVISIBLE);
+                        leftThumb.setVisibility(View.VISIBLE);
+                        direction = randomDirection.nextInt(3 - 1) + 1;
+                        rightArrow.setVisibility(View.INVISIBLE);
+
+                        if (direction == 1) {
+                            leftArrow.setVisibility(View.VISIBLE);
+                            leftArrow.setImageResource(R.drawable.up_arrow);
+                        } else {
+                            leftArrow.setVisibility(View.VISIBLE);
+                            leftArrow.setImageResource(R.drawable.down_arrow);
+                        }
                     }
                 }
-
 
             }
 
             public void onSwipeBottom() {
-                if (direction == 1) {
-                    Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
-                } else if (direction == 2) {
-                    score++;
-                    scoreBoard.setText("Score: " + Integer.toString(score));
-                    rightThumb.setVisibility(View.INVISIBLE);
-                    leftThumb.setVisibility(View.VISIBLE);
-                    direction = randomDirection.nextInt(3 - 1) + 1;
-                    rightArrow.setVisibility(View.INVISIBLE);
 
+                if(gameRunning) {
                     if (direction == 1) {
-                        leftArrow.setVisibility(View.VISIBLE);
-                        leftArrow.setImageResource(R.drawable.up_arrow);
-                    } else {
-                        leftArrow.setVisibility(View.VISIBLE);
-                        leftArrow.setImageResource(R.drawable.down_arrow);
+                        Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
+                        score--;
+                        scoreBoard.setText("Score: " + Integer.toString(score));
+                    } else if (direction == 2) {
+                        score++;
+                        scoreBoard.setText("Score: " + Integer.toString(score));
+                        rightThumb.setVisibility(View.INVISIBLE);
+                        leftThumb.setVisibility(View.VISIBLE);
+                        direction = randomDirection.nextInt(3 - 1) + 1;
+                        rightArrow.setVisibility(View.INVISIBLE);
+
+                        if (direction == 1) {
+                            leftArrow.setVisibility(View.VISIBLE);
+                            leftArrow.setImageResource(R.drawable.up_arrow);
+                        } else {
+                            leftArrow.setVisibility(View.VISIBLE);
+                            leftArrow.setImageResource(R.drawable.down_arrow);
+                        }
                     }
                 }
             }
@@ -124,46 +137,56 @@ public class MainActivity extends AppCompatActivity {
 
         leftThumb.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
             public void onSwipeTop() {
-                if (direction == 2) {
-                    Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
-                } else if (direction == 1) {
-                    score++;
-                    scoreBoard.setText("Score: " + Integer.toString(score));
-                    if (direction == 1) {
-                        score++;
-                        rightThumb.setVisibility(View.VISIBLE);
-                        leftThumb.setVisibility(View.INVISIBLE);
-                        direction = randomDirection.nextInt(3 - 1) + 1;
-                        leftArrow.setVisibility(View.INVISIBLE);
 
-                        if (direction == 1) {
-                            rightArrow.setVisibility(View.VISIBLE);
-                            rightArrow.setImageResource(R.drawable.up_arrow);
-                        } else {
-                            rightArrow.setVisibility(View.VISIBLE);
-                            rightArrow.setImageResource(R.drawable.down_arrow);
-                        }
+                if(gameRunning) {
+                    if (direction == 2) {
+                        Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
+                        score--;
+                        scoreBoard.setText("Score: " + Integer.toString(score));
+                    } else if (direction == 1) {
+                        score++;
+                        scoreBoard.setText("Score: " + Integer.toString(score));
+
+
+                            rightThumb.setVisibility(View.VISIBLE);
+                            leftThumb.setVisibility(View.INVISIBLE);
+                            direction = randomDirection.nextInt(3 - 1) + 1;
+                            leftArrow.setVisibility(View.INVISIBLE);
+
+                            if (direction == 1) {
+                                rightArrow.setVisibility(View.VISIBLE);
+                                rightArrow.setImageResource(R.drawable.up_arrow);
+                            } else {
+                                rightArrow.setVisibility(View.VISIBLE);
+                                rightArrow.setImageResource(R.drawable.down_arrow);
+                            }
+
                     }
                 }
             }
 
                         public void onSwipeBottom() {
-                            if (direction == 1) {
-                                Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
-                            } else if (direction == 2) {
-                                score++;
-                                scoreBoard.setText("Score: " + Integer.toString(score));
 
-                                rightThumb.setVisibility(View.VISIBLE);
-                                leftThumb.setVisibility(View.INVISIBLE);
-                                direction = randomDirection.nextInt(3 - 1) + 1;
-                                leftArrow.setVisibility(View.INVISIBLE);
+                            if(gameRunning) {
                                 if (direction == 1) {
-                                    rightArrow.setVisibility(View.VISIBLE);
-                                    rightArrow.setImageResource(R.drawable.up_arrow);
-                                } else {
-                                    rightArrow.setVisibility(View.VISIBLE);
-                                    rightArrow.setImageResource(R.drawable.down_arrow);
+                                    Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
+                                    score--;
+                                    scoreBoard.setText("Score: " + Integer.toString(score));
+                                } else if (direction == 2) {
+                                    score++;
+                                    scoreBoard.setText("Score: " + Integer.toString(score));
+
+                                    rightThumb.setVisibility(View.VISIBLE);
+                                    leftThumb.setVisibility(View.INVISIBLE);
+                                    direction = randomDirection.nextInt(3 - 1) + 1;
+                                    leftArrow.setVisibility(View.INVISIBLE);
+                                    if (direction == 1) {
+                                        rightArrow.setVisibility(View.VISIBLE);
+                                        rightArrow.setImageResource(R.drawable.up_arrow);
+                                    } else {
+                                        rightArrow.setVisibility(View.VISIBLE);
+                                        rightArrow.setImageResource(R.drawable.down_arrow);
+                                    }
                                 }
                             }
                         }
@@ -210,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
             public void gameRoundStart() {
                 Toast.makeText(MainActivity.this, "game on", Toast.LENGTH_SHORT).show();
                 int startingSide = randomStart.nextInt(3 - 1) + 1;
+                gameRunning = true;
 
                     new CountDownTimer(30000, 1000) {
 
@@ -259,5 +283,13 @@ public class MainActivity extends AppCompatActivity {
                 adCount = adCount + 1;
                 startButton.setVisibility(View.VISIBLE);
 
+
+                gameRunning = false;
+
+                score = 0;
+                scoreBoard.setText("Score: " + Integer.toString(score));
+
             }
+
+
         }
