@@ -97,7 +97,17 @@ public class MainActivity extends AppCompatActivity {
 
                 if(gameRunning) {
                     if (direction == 2) {
-                        Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
+                        rightThumb.setBackground(getResources().getDrawable(R.drawable.rounded_button_red));
+                        new CountDownTimer(500,500){
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                            }
+                            @Override
+                            public void onFinish() {
+                                rightThumb.setBackground(getResources().getDrawable(R.drawable.rounded_button_green));
+                            }
+                        }.start();
+//                        Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
                         score--;
                         scoreBoard.setText("Score: " + Integer.toString(score));
                     } else if (direction == 1) {
@@ -125,7 +135,17 @@ public class MainActivity extends AppCompatActivity {
 
                 if(gameRunning) {
                     if (direction == 1) {
-                        Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
+                        rightThumb.setBackground(getResources().getDrawable(R.drawable.rounded_button_red));
+                        new CountDownTimer(500,500){
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                            }
+                            @Override
+                            public void onFinish() {
+                                rightThumb.setBackground(getResources().getDrawable(R.drawable.rounded_button_green));
+                            }
+                        }.start();
+//                        Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
                         score--;
                         scoreBoard.setText("Score: " + Integer.toString(score));
                     } else if (direction == 2) {
@@ -155,13 +175,22 @@ public class MainActivity extends AppCompatActivity {
 
                 if(gameRunning) {
                     if (direction == 2) {
-                        Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
+                        leftThumb.setBackground(getResources().getDrawable(R.drawable.rounded_button_red));
+                        new CountDownTimer(500,500){
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                            }
+                            @Override
+                            public void onFinish() {
+                                leftThumb.setBackground(getResources().getDrawable(R.drawable.rounded_button_green));
+                            }
+                        }.start();
+//                        Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
                         score--;
                         scoreBoard.setText("Score: " + Integer.toString(score));
                     } else if (direction == 1) {
                         score++;
                         scoreBoard.setText("Score: " + Integer.toString(score));
-
 
                             rightThumb.setVisibility(View.VISIBLE);
                             leftThumb.setVisibility(View.INVISIBLE);
@@ -179,12 +208,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-
                         public void onSwipeBottom() {
 
                             if(gameRunning) {
                                 if (direction == 1) {
-                                    Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
+                                    leftThumb.setBackground(getResources().getDrawable(R.drawable.rounded_button_red));
+                                    new CountDownTimer(500,500){
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+                                        }
+                                        @Override
+                                        public void onFinish() {
+                                            leftThumb.setBackground(getResources().getDrawable(R.drawable.rounded_button_green));
+                                        }
+                                    }.start();
+//                                    Toast.makeText(MainActivity.this, "NOPE", Toast.LENGTH_SHORT).show();
                                     score--;
                                     scoreBoard.setText("Score: " + Integer.toString(score));
                                 } else if (direction == 2) {
@@ -241,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
                             gameRoundStart();
                         }
                     });
-
+//
                 }
 
 
